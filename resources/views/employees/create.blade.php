@@ -1,90 +1,291 @@
 @extends('layouts.app')
 
-@section('title', 'Employee List')
+@section('title', 'Add Employee')
 
 @section('content')
+
 <div class="container mt-5">
-    <div class="row">
-        <div class="col-md-8 mx-auto">
-            <h2 class="mb-4">Add Employee</h2>
-            
-            <form action="{{ route('employees.store') }}" method="POST" class="needs-validation" novalidate>
-                @csrf
-                
-                <div class="mb-3">
-                    <label for="name" class="form-label">Name</label>
-                    <input type="text" class="form-control" id="name" name="name" required>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="email" class="form-label">Email</label>
-                    <input type="email" class="form-control" id="email" name="email" required>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="phone" class="form-label">Phone</label>
-                    <input type="text" class="form-control" id="phone" name="phone" required>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="salary" class="form-label">Salary</label>
-                    <input type="text" class="form-control" id="salary" name="salary" required>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="state" class="form-label">State</label>
-                    <select name="state_id" id="state" class="form-select" required>
-                        <option value="">Select State</option>
-                        @foreach($states as $state)
-                            <option value="{{ $state->id }}">{{ $state->name }}</option>
-                        @endforeach
-                    </select>
-                </div>
-                
-                <div class="mb-3">
-                    <label for="city" class="form-label">City</label>
-                    <select name="city_id" id="city" class="form-select" required>
-                        <option value="">Select City</option>
-                    </select>
-                </div>
-                
-                <button type="submit" class="btn btn-primary">Save</button>
-                <a href="{{ route('employees.index') }}" class="btn btn-secondary">Back</a>
-            </form>
+
+    <h2>Employee Registration</h2>
+
+    @if($errors->any())
+        <div class="alert alert-danger">
+            @foreach($errors->all() as $error)
+                <p>{{ $error }}</p>
+            @endforeach
         </div>
-    </div>
+    @endif
+
+    <form action="{{ route('employees.store') }}"
+          method="POST"
+          enctype="multipart/form-data">
+
+        @csrf
+
+        <div class="mb-3">
+            <label>Employee Name</label>
+            <input type="text"
+                   name="name"
+                   class="form-control">
+        </div>
+
+
+        <div class="mb-3">
+            <label>Email</label>
+            <input type="email"
+                   name="email"
+                   class="form-control">
+        </div>
+                              
+
+                            <div class="col-md-6">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="text" class="form-control form-control-lg" id="phone" name="phone" value="{{ old('phone') }}" required>
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="salary" class="form-label">Salary</label>
+                                <input type="number" step="0.01" min="0" class="form-control form-control-lg" id="salary" name="salary" value="{{ old('salary') }}" required>
+                            </div>
+                        </div>
+        <div class="mb-3">
+            <label>Country</label>
+
+            <select name="country_id"
+                    id="country"
+                    class="form-select">
+
+                <option value="">Select Country</option>
+
+                @foreach($countries as $country)
+
+                    <option value="{{ $country->id }}">
+                        {{ $country->name }}
+                    </option>
+
+                @endforeach
+
+            </select>
+        </div>
+
+
+        <div class="mb-3">
+            <label>State</label>
+
+            <select name="state_id"
+                    id="state"
+                    class="form-select">
+
+                <option value="">Select State</option>
+
+            </select>
+        </div>
+
+
+        <div class="mb-3">
+            <label>City</label>
+
+            <select name="city_id"
+                    id="city"
+                    class="form-select">
+
+                <option value="">Select City</option>
+
+            </select>
+        </div>
+
+
+        <div class="mb-3">
+            <label>Skill</label>
+
+            <select name="skill_id"
+                    class="form-select">
+
+                <option value="">Select Skill</option>
+
+                @foreach($skills as $skill)
+
+                    <option value="{{ $skill->id }}">
+                        {{ $skill->name }}
+                    </option>
+
+                @endforeach
+
+            </select>
+        </div>
+
+
+        <div class="mb-3">
+            <label>Department</label>
+
+            <select name="department_id"
+                    class="form-select">
+
+                <option value="">Select Department</option>
+
+                @foreach($departments as $department)
+
+                    <option value="{{ $department->id }}">
+                        {{ $department->name }}
+                    </option>
+
+                @endforeach
+
+            </select>
+        </div>
+
+
+        <div class="mb-3">
+            <label>Joining Date</label>
+
+            <input type="date"
+                   name="joining_date"
+                   id="joining_date"
+                   class="form-control">
+        </div>
+
+
+        <div class="mb-3">
+            <label>Years of Service</label>
+
+            <input type="text"
+                   id="years"
+                   class="form-control"
+                   readonly>
+        </div>
+
+
+        <div class="mb-3">
+            <label>Photo</label>
+
+            <input type="file"
+                   name="photo"
+                   class="form-control">
+        </div>
+
+
+        <button type="submit"
+                class="btn btn-primary">
+
+            Save Employee
+
+        </button>
+
+        <a href="{{ route('employees.index') }}"
+           class="btn btn-secondary">
+
+            Back
+
+        </a>
+
+    </form>
+
 </div>
 
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 <script>
-$(document).ready(function() {
-    $('#state').change(function() {
-        let stateId = $(this).val();
-        
-        if (stateId) {
-            $('#city').html('<option value="">Loading...</option>');
-            
-            $.ajax({
-                url: '/get-cities/' + stateId,
-                type: 'GET',
-                success: function(data) {
-                    let options = '<option value="">Select City</option>';
-                    data.forEach(function(city) {
-                        options += `<option value="${city.id}">${city.name}</option>`;
-                    });
-                    $('#city').html(options);
-                },
-                error: function() {
-                    $('#city').html('<option value="">Error loading cities</option>');
-                }
-            });
-        } else {
-            $('#city').html('<option value="">Select City</option>');
-        }
-    });
-});
-</script>
-@endsection
 
+    // Country -> State
+
+    document.getElementById('country').addEventListener('change', function(){
+
+        let countryId = this.value;
+
+        let state = document.getElementById('state');
+
+        let city = document.getElementById('city');
+
+        state.innerHTML = '<option value="">Select State</option>';
+
+        city.innerHTML = '<option value="">Select City</option>';
+
+
+        if(countryId != '')
+        {
+            fetch('/employees/states/' + countryId)
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                data.forEach(function(item){
+
+                    state.innerHTML +=
+                        '<option value="' + item.id + '">' +
+                        item.name +
+                        '</option>';
+
+                });
+
+            });
+        }
+
+    });
+
+
+    // State -> City
+
+    document.getElementById('state').addEventListener('change', function(){
+
+        let stateId = this.value;
+
+        let city = document.getElementById('city');
+
+        city.innerHTML = '<option value="">Select City</option>';
+
+
+        if(stateId != '')
+        {
+            fetch('/employees/cities/' + stateId)
+
+            .then(response => response.json())
+
+            .then(data => {
+
+                data.forEach(function(item){
+
+                    city.innerHTML +=
+                        '<option value="' + item.id + '">' +
+                        item.name +
+                        '</option>';
+
+                });
+
+            });
+        }
+
+    });
+
+
+    // Calculate years of service
+
+    document.getElementById('joining_date')
+        .addEventListener('change', function(){
+
+            let joiningDate = new Date(this.value);
+
+            let today = new Date();
+
+            let years =
+                today.getFullYear() -
+                joiningDate.getFullYear();
+
+            if(
+                today.getMonth() < joiningDate.getMonth() ||
+                (
+                    today.getMonth() == joiningDate.getMonth() &&
+                    today.getDate() < joiningDate.getDate()
+                )
+            )
+            {
+                years--;
+            }
+
+            document.getElementById('years').value =
+                years + ' Year(s)';
+
+        });
+
+</script>
+
+@endsection
