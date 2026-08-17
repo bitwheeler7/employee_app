@@ -5,7 +5,7 @@
 @section('content')
 
 <div class="container mt-5">
-    <div class="row mb-4">
+    <div class="row mb-4 align-items-center">
         <div class="col-md-6">
             <h2>Employee List</h2>
         </div>
@@ -13,37 +13,59 @@
             <a href="{{ route('employees.create') }}" class="btn btn-primary">Add Employee</a>
         </div>
     </div>
-    
+
     <div class="table-responsive">
-        <table class="table table-striped table-hover">
+        <table class="table table-striped table-hover align-middle">
             <thead class="table-primary">
                 <tr>
+                    <th>Photo</th>
                     <th>Name</th>
                     <th>Email</th>
                     <th>Phone</th>
                     <th>Salary</th>
+                    <th>Country</th>
+                    <th>State</th>
+                    <th>City</th>
+                    <th>Skill</th>
+                    <th>Department</th>
+                    <th>Joining Date</th>
                     <th>Action</th>
                 </tr>
             </thead>
             <tbody>
                 @forelse($employees as $emp)
                 <tr>
+                    <td>
+                        @if($emp->photo)
+                            <img src="{{ asset('storage/' . $emp->photo) }}" alt="{{ $emp->name }}" class="img-thumbnail" style="width: 60px; height: 60px; object-fit: cover;">
+                        @else
+                            <span class="text-muted">No Photo</span>
+                        @endif
+                    </td>
                     <td>{{ $emp->name }}</td>
                     <td>{{ $emp->email }}</td>
                     <td>{{ $emp->phone }}</td>
                     <td>{{ $emp->salary }}</td>
+                    <td>{{ $emp->country?->name ?? 'N/A' }}</td>
+                    <td>{{ $emp->state?->name ?? 'N/A' }}</td>
+                    <td>{{ $emp->city?->name ?? 'N/A' }}</td>
+                    <td>{{ $emp->skill?->name ?? 'N/A' }}</td>
+                    <td>{{ $emp->department?->name ?? 'N/A' }}</td>
+                    <td>{{ $emp->joining_date ? $emp->joining_date->format('d M Y') : 'N/A' }}</td>
                     <td>
-                        <a href="{{ route('employees.edit', $emp->id) }}" class="btn btn-sm btn-success">Edit</a>
-                        <form action="{{ route('employees.destroy', $emp->id) }}" method="POST" style="display:inline;">
-                            @csrf
-                            @method('DELETE')
-                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
-                        </form>
+                        <div class="d-flex gap-2">
+                            <a href="{{ route('employees.edit', $emp->id) }}" class="btn btn-sm btn-success">Edit</a>
+                            <form action="{{ route('employees.destroy', $emp->id) }}" method="POST" style="display:inline;">
+                                @csrf
+                                @method('DELETE')
+                                <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Are you sure?')">Delete</button>
+                            </form>
+                        </div>
                     </td>
                 </tr>
                 @empty
                 <tr>
-                    <td colspan="5" class="text-center">No employees found</td>
+                    <td colspan="12" class="text-center">No employees found</td>
                 </tr>
                 @endforelse
             </tbody>
