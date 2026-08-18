@@ -46,15 +46,16 @@
                     <td>{{ $emp->email }}</td>
                     <td>{{ $emp->phone }}</td>
                     <td>{{ $emp->salary }}</td>
-                    <td>{{ $emp->country?->name ?? 'N/A' }}</td>
-                    <td>{{ $emp->state?->name ?? 'N/A' }}</td>
-                    <td>{{ $emp->city?->name ?? 'N/A' }}</td>
-                    <td>{{ $emp->skill?->name ?? 'N/A' }}</td>
-                    <td>{{ $emp->department?->name ?? 'N/A' }}</td>
+                    <td>{{ $emp->country?->name}}</td>
+                    <td>{{ $emp->state?->name }}</td>
+                    <td>{{ $emp->city?->name }}</td>
+                    <td>{{ $emp->skill?->name }}</td>
+                    <td>{{ $emp->department?->name }}</td>
                     <td>{{ $emp->joining_date ? $emp->joining_date->format('d M Y') : 'N/A' }}</td>
                     <td>
                         <div class="d-flex gap-2">
                             <a href="{{ route('employees.edit', $emp->id) }}" class="btn btn-sm btn-success">Edit</a>
+                            <a href="{{ asset('storage/' . $emp->photo) }}" download class="btn btn-warning btn-sm">D/w </a>
                             <form action="{{ route('employees.destroy', $emp->id) }}" method="POST" style="display:inline;">
                                 @csrf
                                 @method('DELETE')
@@ -72,5 +73,5 @@
         </table>
     </div>
 </div>
-
+<?php echo $employees->links(); ?>
 @endsection
