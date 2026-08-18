@@ -14,14 +14,8 @@ class EmployeeController extends Controller
 {
     public function index()
     {
-        $employees = Employee::with([
-            'country',
-            'state',
-            'city',
-            'skill',
-            'department'
-        ])->get();
-
+        $employees = Employee::with(['country','state','city','skill','department'])->latest()->paginate(10);
+        // $employees = Employee::all();
         return view('employees.index', compact('employees'));
     }
 
@@ -66,25 +60,15 @@ class EmployeeController extends Controller
         $request->validate([
 
             'name' => 'required',
-
             'email' => 'required|email|unique:employees,email',
-
             'phone' => 'required',
-
             'salary' => 'required|numeric',
-
             'country_id' => 'required',
-
             'state_id' => 'required',
-
             'city_id' => 'required',
-
             'skill_id' => 'required',
-
             'department_id' => 'required',
-
             'joining_date' => 'required|date',
-
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
 
         ]);
@@ -101,8 +85,6 @@ class EmployeeController extends Controller
                     'public'
                 );
         }
-
-
         Employee::create($data);
 
 
@@ -146,21 +128,13 @@ class EmployeeController extends Controller
                 $employee->id,
 
             'phone' => 'required',
-
             'salary' => 'required|numeric',
-
             'country_id' => 'required',
-
             'state_id' => 'required',
-
             'city_id' => 'required',
-
             'skill_id' => 'required',
-
             'department_id' => 'required',
-
             'joining_date' => 'required|date',
-
             'photo' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
 
         ]);
@@ -172,10 +146,7 @@ class EmployeeController extends Controller
         if ($request->hasFile('photo')) {
 
             $data['photo'] =
-                $request->file('photo')->store(
-                    'employees',
-                    'public'
-                );
+                $request->file('photo')->store('employees','public');
         }
 
 
